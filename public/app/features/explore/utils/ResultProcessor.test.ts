@@ -30,6 +30,7 @@ const testContext = (options: any = {}) => {
       { name: 'tsNs', type: FieldType.time, values: ['100000002', undefined, '100000001'] },
       { name: 'message', type: FieldType.string, values: ['this is a message', 'second message', 'third'] },
     ],
+    meta: { preferredVisualisationType: 'logs' },
   });
 
   const emptyTable = toDataFrame({ name: 'empty-table', refId: 'A', fields: [] });
@@ -191,10 +192,11 @@ describe('ResultProcessor', () => {
 
     describe('when calling getLogsResult', () => {
       it('then it should return correct logs result', () => {
-        const { resultProcessor, dataFrames } = testContext({ mode: ExploreMode.Logs });
+        const { resultProcessor, dataFrames } = testContext({});
         const timeField = dataFrames[0].fields[0];
         const valueField = dataFrames[0].fields[1];
         const logsDataFrame = dataFrames[1];
+
         const theResult = resultProcessor.getLogsResult();
 
         expect(theResult).toEqual({
